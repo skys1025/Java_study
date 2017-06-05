@@ -66,4 +66,9 @@ public class Controller {
         String currentText = output.getText();
         output.setText(currentText.substring(0, currentText.length()-1));
     }
+
+    @FXML
+    void negate(ActionEvent event){
+        output.setText(model.calculate(BigDecimal.valueOf(-1), new BigDecimal(output.getText(), mathContext), "*").toString());
+    }
 }
