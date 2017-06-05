@@ -2,23 +2,33 @@ package study.calc;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 class Model {
-    BigDecimal calculate(BigDecimal number1, BigDecimal number2, String operator){
+    Optional<BigDecimal> lastValue = Optional.empty();
+    Optional<BigDecimal> process(BigDecimal number, String operator){
+
+    }
+    private Optional<BigDecimal> calculate(Optional<BigDecimal> lvalue, BigDecimal rvalue, String operator){
         switch (operator){
             case "+":
-                return number1.add(number2);
+                lastValue = lvalue.map(l -> l.add(rvalue));
+                return lastValue
             case "-":
-                return number1.subtract(number2);
+                lastValue = lvalue.map(l -> l.subtract(rvalue))
+                return lastValue;
             case "*":
-                return number1.multiply(number2);
+                lastValue = lvalue.map(l -> l.multiply(rvalue))
+                return lastValue;
             case "/":
-                if( number2.equals(BigDecimal.ZERO) ){
-                    return BigDecimal.ZERO;
+                if( rvalue.equals(BigDecimal.ZERO) ){
+                    return Optional.empty();
                 }
-                return number1.divide(number2, RoundingMode.HALF_UP);
+                return lvalue.map(l -> l.divide(rvalue, RoundingMode.HALF_UP));
+            case "":
+                return Optional.empty();
         }
         System.out.println("Unknown operator - " + operator);
-        return BigDecimal.ZERO;
+        return Optional.of(BigDecimal.ZERO);
     }
 }

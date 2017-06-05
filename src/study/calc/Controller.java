@@ -35,16 +35,9 @@ public class Controller {
     @FXML
     void processOperator(ActionEvent event) {
         String value = ((Button)event.getSource()).getText();
-        if (!"=".equals(value)){
-            operator = value;
-            number1 = new BigDecimal(output.getText(), mathContext);
-            acceptNewNumber = true;
-        } else {
-            if(operator.isEmpty()){
-                return;
-            }
-            output.setText(model.calculate(number1, new BigDecimal(output.getText(), mathContext), operator).toString());
-            acceptNewNumber = true;
+        if(!acceptNewNumber){
+            BigDecimal number = new BigDecimal(output.getText(), mathContext);
+            model.process(number, operator).ifPresent(num -> output.setText(num.toString()));
         }
     }
 
